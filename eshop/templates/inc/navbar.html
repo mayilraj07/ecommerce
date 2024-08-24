@@ -1,0 +1,97 @@
+<nav class="navbar navbar-expand-md navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <header class="d-flex w-100 justify-content-around align-items-center mb-2 d-md-none">
+      <div class="d-flex align-items-center">
+        <button class="navbar-toggler px-1  mb-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand pt-2 mx-2" href="{% url 'Home' %}">Ekart</a>
+      </div>
+      <div class="navs d-flex align-items-center">
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'profile' %}" class="nav-link text-white text-decoration-none px-2" >
+              <i class="fa-regular fa-circle-user"></i> {{request.user}}
+          </a>    
+          <a href="{% url 'Cart' %}" class="nav-link position-relative text-white text-decoration-none px-2"> <i class="fa-solid fa-cart-shopping"></i><span class="position-absolute top-0 start-50 rounded-pill  badge bg-danger">{%if total_cart > 0 %} {{total_cart}} {% endif %}</span></a>
+        {% else %}
+          <a href="{% url 'Login' %}" class="nav-link text-white text-decoration-none px-2"><i class="fa-regular fa-circle-user"></i> Login</a>
+          <a href="{% url 'Cart' %}" class="nav-link text-white text-decoration-none px-2"> <i class="fa-solid fa-cart-shopping"></i></a>
+        {% endif %}
+      </div>
+    </header>
+    <div class=" d-none d-md-block">
+      <button class="navbar-toggler px-1  mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand pt-2 mx-2" href="{% url 'Home' %}">Ekart</a>
+    </div>     
+    <div class="flex-grow-1 ">
+      <form class="" action="{% url 'search' %}" >
+        <div class="input-group">
+          <input type="search" class="form-control" name="search" id="search-items" placeholder="Search Products">
+          <button class="input-group-text" type="submit" id="basic-addon1"><i class="fa fa-search"></i></button>
+        </div>
+      </form>
+    </div>
+    <div class="offcanvas offcanvas-start text-dark bg-white" id="demo">
+      <div class="offcanvas-header p-0 fixed">
+        {% if request.user.is_authenticated %}
+          <p class="offcanvas-title bg-primary text-white w-100 p-2 rounded"><a class="text-white text-decoration-none" href="{% url 'profile' %}"><i class="fa-regular fa-circle-user"></i> {{request.user}}</a></p>
+        {% else %}
+          <p class="offcanvas-title bg-primary  w-100 p-2 rounded"><a class="text-white text-decoration-none" href="{% url 'Login' %}"><i class="fa-regular fa-circle-user"></i> Login & Signup</a></p>
+        {% endif %}
+          <!-- <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button> -->
+      </div>
+      <div class="offcanvas-body">
+        <p><a class="text-decoration-none text-dark" href="{% url 'Collections'%}"><i class="fa-solid fa-list"></i> All Categories</a></p><hr>
+        {% if request.user.is_authenticated %}
+          <p><a class="text-decoration-none text-dark" href="{% url 'orders' %}"><i class="fa-solid fa-truck-fast"></i> My Orders</a></p>
+          <p><a class="text-decoration-none text-dark" href="{% url 'Cart' %}"><i class="fa-solid fa-cart-shopping"></i> My Cart</a></p><hr>
+          <p><a class="text-decoration-none text-dark" href="{% url 'profile' %}"><i class="fa-solid fa-user"></i> My Account</a></p>
+        {% else %}
+          <p><a class="text-decoration-none text-dark" href="{% url 'Login' %}"><i class="fa-solid fa-truck-fast"></i> My Orders</a></p>
+          <p><a class="text-decoration-none text-dark" href="{% url 'Login' %}"><i class="fa-solid fa-cart-shopping"></i> My Cart</a></p><hr>
+          <p><a class="text-decoration-none text-dark" href="{% url 'Login' %}"><i class="fa-solid fa-user"></i> My Account</a></p>
+        {% endif %}
+        <!-- {% if request.user.is_authenticated %}
+        <p><a href="{% url 'Logout'%}"><i class="fa-solid fa-arrow-right-from-bracket"></i>  Logout</a></p>
+        {% else %}
+        <p>New User? <a href="{% url 'Register' %}">Signup</a></p>
+        <p>Already User? <a href="{% url 'Login' %}">Login</a></p>
+        {% endif %} -->
+      </div>
+    </div>
+      
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-auto">
+        {% if request.user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-circle-user fa-lg"></i> {{request.user}}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fa-solid fa-user"></i> My Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'orders' %}"><i class="fa-solid fa-truck-fast"></i> My Orders</a></li>
+              <li><a class="dropdown-item" href="{% url 'passwordChange' %}"><i class="fa-solid fa-key"></i> Change Password</a></li>
+              <li><a class="dropdown-item" href="{% url 'Logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+            </ul>
+          </li>
+          <a href="{% url 'Cart' %}" class="nav-link position-relative" title="Cart"> <i class="fa-solid fa-cart-shopping fa-lg"></i><span class="position-absolute top-0 end-50 rounded-circle  badge bg-danger">{%if total_cart > 0 %} {{total_cart}} {% endif %}</span> Cart</a>
+          <a href="{% url 'wishlist' %}" class="nav-link position-relative" title="Wishlist">{% if total_wishList > 0 %} <i class="fa fa-heart text-danger fa-lg"></i> <span class="position-absolute top-0 start-50 rounded-circle  badge bg-danger">{{total_wishList}}</span> {% else %} <i class="fa fa-heart fa-lg"></i> {% endif %}</a>   
+        {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-regular fa-circle-user"></i> Login
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'Register'%}"><i class="fa-solid fa-user-plus"></i> Create Account</a></li>
+              <li><a class="dropdown-item" href="{% url 'Login'%}"><i class="fa fa-user pe-1"></i> Login</a></li>
+            </ul>
+          </li>
+          <a href="{% url 'Cart' %}" class="nav-link"> <i class="fa-solid fa-cart-shopping fa-lg"></i></a>
+          <a href="{% url 'wishlist' %}" class="nav-link"><i class="fa fa-heart fa-lg"></i></a> 
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

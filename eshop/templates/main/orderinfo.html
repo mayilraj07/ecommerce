@@ -1,0 +1,19 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% load static %}
+{% block content %}
+<div class="container mb-2" style="margin-top: 70px;">
+    <div class="row mt-5">
+        <div class="card ">
+            <img src="{% static 'images/order_success.gif' %}" class="img-fluid mx-auto d-block" height="400"
+                width="500" alt="">
+            <p class="display-6 text-center text-success">Order placed Successfully</p>
+            <div class="text-center mb-2">
+                <a href="{% url 'orders' %}" class="btn btn-primary btn-sm">View Orders</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,213 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% block content %}
+<div class="container-fluid mb-5 d-none d-sm-block" style="margin-top: 70px;">
+    <div class="col-sm-10 offset-sm-1 card">
+        <div class="bg-primary p-3 rounded mb-2">
+            <a href="{% url 'address' %}" class="text-decoration-none text-white"><i
+                    class="fa-solid fa-arrow-left fa-lg pe-2"></i>New Address</a>
+            {% include 'inc/message.html' %}
+        </div>
+        <div class="p-2">
+            <form action="" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="row">
+                        <div class="form-floating col-sm-6">
+                            {{form.name}}
+                            <label for="" class="form-label ps-3">Name</label>
+                            <span id="error"></span>
+                            {% if form.errors.name %}
+                            <span class="text-danger">{{form.errors.name}}</span>
+                            {% endif %}
+                        </div>
+    
+                        <div class="form-floating col-sm-6">
+                            {{form.locality}}
+                            <label for="" class="form-label ps-3">Village/Locality</label>
+                            <span id="error"></span>
+                            {% if form.errors.locality %}
+                            <span class="text-danger">{{form.errors.locality}}</span>
+                            {% endif %}
+                        </div>
+    
+    
+                        <div class="col-sm-6 form-floating">
+                            {{form.address}}
+                            <label for="" class="form-label ps-3"> Door No /house/building</label>
+                            <span id="error"></span>
+                            {% if form.errors.address %}
+                            <span class="text-danger">{{form.errors.address}}</span>
+                            {% endif %}
+                        </div>
+    
+                        <div class="col-sm-6 form-floating">
+                            {{form.city}}
+                            <label for="" class="form-label ps-3">City</label>
+                            <span id="error"></span>
+                            {% if form.errors.city %}
+                            <span class="text-danger">{{form.errors.city}}</span>
+                            {% endif %}
+                        </div>
+    
+                        <div class="col-sm-6 form-floating">
+                            <select name="state" class="form-select" placeholder="state" id="id_state">
+                                <option value="" disabled selected>--Select State--</option>
+                                {% for states in form.state %}
+                                {{states.tag}}
+                                {% endfor %}
+                            </select>
+                            <label for="" class="form-label ps-3">State</label>
+                            <span id="error"></span>
+                            {% if form.errors.state %}
+                            <span class="text-danger">{{form.errors.state}}</span>
+                            {% endif %}
+                        </div>
+    
+                        <div class="col-sm-6 form-floating">
+                            {{form.landmark}}
+                            <label for="" class="form-label ps-3">Landmark(optional)</label>
+                            <span id="error"></span>
+                            {% if form.errors.landmark %}
+                            <span class="text-danger">{{form.errors.landmark}}</span>
+                            {% endif %}
+                        </div>
+    
+                        <div class="col-sm-6 form-floating">
+                            {{form.mobile}}
+                            <label for="" class="form-label ps-3">Mobile</label>
+                            <span id="error"></span>
+                            {% if form.errors.mobile %}
+                            <span class="text-danger">{{form.errors.mobile}}</span>
+                            {% endif %}
+                        </div>
+    
+                        <div class="col-sm-6 form-floating">
+                            {{form.zipcode}}
+                            <label for="" class="form-label ps-3">Pincode</label>
+                            <span id="error"></span>
+                            {% if form.errors.zipcode %}
+                            <span class="text-danger">{{form.errors.zipcode}}</span>
+                            {% endif %}
+                        </div>
+    
+                        <div class=" form-group">
+                            <p>Address type:</p>
+                            {% for add in form.address_type %}
+                            {{ add.tag }}
+                            <label class="form-check-label me-2" for="{{ add.id_for_label }}">
+                                {{ add.choice_label}}
+                            </label>
+                            {% endfor %}
+                        </div>
+                </div>
+                <div class="col-12 my-3">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+   
+</div>
+
+<div class="container mb-2 d-sm-none bg-light px-0" style="margin-top: 106px;">
+    <div class="bg-white pb-1">
+        <div class="bg-primary p-2 rounded mb-2">
+            <a href="{% url 'address' %}" class="text-decoration-none text-white"><i
+                    class="fa-solid fa-arrow-left fa-lg pe-2"></i> Add delivery address</a>
+        </div>
+        <div class="px-3 my-3">
+            <form action="" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="form-floating">
+                        {{form.name}}
+                        <label for="" class="form-label ps-3">Name</label>
+                        <span id="error"></span>
+                        {% if form.errors.name %}
+                        <span class="text-danger">{{form.errors.name}}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-floating ">
+                        {{form.locality}}
+                        <label for="" class="form-label ps-3">Village/Locality</label>
+                        <span id="error"></span>
+                        {% if form.errors.locality %}
+                        <span class="text-danger">{{form.errors.locality}}</span>
+                        {% endif %}
+                    </div>
+                    <div class="form-floating">
+                        {{form.address}}
+                        <label for="" class="form-label ps-3"> Door No /house/building</label>
+                        <span id="error"></span>
+                        {% if form.errors.address %}
+                        <span class="text-danger">{{form.errors.address}}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-floating">
+                        {{form.city}}
+                        <label for="" class="form-label ps-3">City</label>
+                        <span id="error"></span>
+                        {% if form.errors.city %}
+                        <span class="text-danger">{{form.errors.city}}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-floating">
+                        <select name="state" class="form-select" placeholder="state" id="id_state">
+                            <option value="" disabled selected>--Select State--</option>
+                            {% for states in form.state %}
+                            {{states.tag}}
+                            {% endfor %}
+                        </select>
+                        <label for="" class="form-label ps-3">State</label>
+                        <span id="error"></span>
+                        {% if form.errors.state %}
+                        <span class="text-danger">{{form.errors.state}}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-floating">
+                        {{form.landmark}}
+                        <label for="" class="form-label ps-3">Landmark(optional)</label>
+                        <span id="error"></span>
+                        {% if form.errors.landmark %}
+                        <span class="text-danger">{{form.errors.landmark}}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-floating">
+                        {{form.mobile}}
+                        <label for="" class="form-label ps-3">Mobile</label>
+                        <span id="error"></span>
+                        {% if form.errors.mobile %}
+                        <span class="text-danger">{{form.errors.mobile}}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-floating">
+                        {{form.zipcode}}
+                        <label for="" class="form-label ps-3">Pincode</label>
+                        <span id="error"></span>
+                        {% if form.errors.zipcode %}
+                        <span class="text-danger">{{form.errors.zipcode}}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-1">
+                        <p>Type of address</p>
+                        {% for add in form.address_type %}
+                        {{ add.tag }}
+                        <label class="form-check-label me-2" for="{{ add.id_for_label }}">{{ add.choice_label }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="my-2 d-grid">
+                    <button type="submit" class="btn btn-warning">Save Address</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,138 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% block content %}
+{% load static %}
+<div class="container mb-3 d-none d-lg-block" style="margin-top: 70px;">
+    <div class="row">
+        <div class="col-sm-9 bg-white">
+            <h5 class=" my-2 bg-primary text-white p-3 rounded">Delivery Address</h5>
+            <form action="{% url 'checkout' product %}" method="post" id="myForm">
+                {% csrf_token %}
+                {% for ad in add %}
+                <div class="col-sm-12 mb-2">
+                    <div class="card p-2">
+                        <div class="card-body position-relative dropstart">
+                            <a class="side-menu" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis-vertical"></i>
+                                <ul class="dropdown-menu shadow">
+                                    <li><a href="{% url 'updateAddress' ad.id %}" class="dropdown-item">Edit</a></li>
+                                </ul>
+                            </a>
+                            <div class="d-flex">
+                                <div class="form-check">
+                                    <input type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}"
+                                        class="form-check-input me-4" required>
+                                </div>
+                                <div>
+                                    <span class="fw-bold me-3">{{ad.name|capfirst}}</span>
+                                    <span class="address_type text-center">{{ad.address_type}}</span>
+                                    <span class="fw-bold">{{ad.mobile}}</span>
+                                    <p class="mt-3">{{ad.address}}, {{ad.locality|capfirst}}, {{ad.city|capfirst}},
+                                        {{ad.state|capfirst}} - <span class="fw-bold">{{ad.zipcode}}</span> </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class=" p-2 my-1">
+                    <a href="{% url 'newAddress' %}" class="text-decoration-none"><i class="fa-solid fa-plus"></i> Add A
+                        NEW ADDRESS</a>
+                </div>
+                <div class="my-1">
+                    <button id="rzp-button1" type="submit"
+                        class="float-end btn btn-warning my-3 px-5 fw-bold">Continue</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Price Details</h5>
+                    <ul class="list-group">
+                        <li
+                            class="list-group-item d-flex justify-content-between align-item-center border-0 px-0 pb-0 mb-3">
+                            Price <span id="amount">&#8377 {{famount}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-item-center border-0 px-0">
+                            Delivery Charges {% if famount >= min_amount %} <span id="delivery"
+                                class="text-success">Free</span> {% else %} <span id="delivery-cost">&#8377 40</span>
+                                {%endif %} </li>
+                        <hr>
+                        <li class="list-group-item d-flex justify-content-between align-item-center border-0 px-0">
+                            <strong>Total Payable</strong> <span id="totalamount">
+                                <strong>&#8377 {{totalAmount}}</strong></span>
+                        </li>
+                        <hr>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-2 d-lg-none px-0" style="margin-top: 100px;">
+    <div class="bg-primary p-2 rounded my-2">
+        <a href="{% url 'Home' %}" class="text-decoration-none text-white"><i
+                class="fa-solid fa-arrow-left fa-lg pe-2"></i> Delivery Address</a>
+    </div>
+    <div>
+        <form action="{% url 'checkout' product %}" method="post" id="myForm">
+            {% csrf_token %}
+            {% for ad in add %}
+            <div class="card">
+                <div class="card-body position-relative dropstart">
+                    <a href="#" class="side-menu" data-bs-toggle="dropdown"><i
+                            class="fa-solid fa-ellipsis-vertical"></i></a>
+                    <ul class="dropdown-menu shadow">
+                        <li><a class="dropdown-item" href="{% url 'updateAddress' id=ad.id %}">Edit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'deleteAddress' delete_id=ad.id %}">Delete</a></li>
+                    </ul>
+
+                    <div class="d-flex">
+                        <div class="form-check">
+                            <input type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}"
+                                class="form-check-input me-4" required>
+                        </div>
+                        <div>
+                            <span class="fw-bold me-2">{{ad.name|capfirst}}</span>
+                            <span class="address_type text-center">{{ad.address_type}}</span>
+                            <p class="my-2">{{ad.address}}, {{ad.locality|capfirst}}, {{ad.city|capfirst}},
+                                {{ad.state|capfirst}} - <span class="fw-bold">{{ad.zipcode}}</span></p>
+                            <span class="fw-bold">{{ad.mobile}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class=" p-2 my-1">
+                <a href="{% url 'newAddress' %}" class="text-decoration-none"><i class="fa-solid fa-plus"></i> Add a new
+                    address</a>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5>Price Details</h5>
+                    <ul class="list-group">
+                        <li
+                            class="list-group-item d-flex justify-content-between align-item-center border-0 px-0 pb-0 mb-3">
+                            Price <span id="amount">&#8377 {{famount}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-item-center border-0 px-0">
+                            Delivery Charges {% if famount >= min_amount %} <span id="delivery"
+                                class="text-success">Free</span> {% else %} <span id="delivery-cost">&#8377 40</span>
+                                {%endif %} </li>
+                        <hr>
+                        <li class="list-group-item d-flex justify-content-between align-item-center border-0 px-0">
+                            <strong>Total Payable</strong> <span id="totalamount">
+                                <strong>&#8377 {{totalAmount}}</strong></span>
+                        </li>
+                        <hr>
+                    </ul>
+                </div>
+                <div class="my-1 d-grid">
+                    <button id="rzp-button1" type="submit" class="btn btn-warning fw-bold">Continue</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}

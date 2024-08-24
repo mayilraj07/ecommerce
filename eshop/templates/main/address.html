@@ -1,0 +1,72 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% block content %}
+<div class="container-fluid d-none d-sm-block mb-2" style="margin-top: 70px;">
+    <div class="row">
+        {% include 'main/profile_content.html' %}
+        <div class="col-sm-8 bg-white">
+            <h5 class="my-2 pb-1 border-bottom">Manage Addresses</h5>
+            <div class="border p-2 my-2">
+                <a href="{% url 'newAddress' %}" class="text-decoration-none"><i class="fa-solid fa-plus"></i> Add A NEW ADDRESS</a>
+            </div>
+            {% for ad in add %}
+            <div class="col-sm-12">
+                <div class="card p-2">
+                    <div class="card-body position-relative">
+                        <a class="side-menu" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis-vertical"></i>
+                            <ul class="dropdown-menu shadow">
+                                <li><a class="dropdown-item" href="{% url 'updateAddress' id=ad.id %}">Edit</a></li>
+                                <li><a class="dropdown-item" href="{% url 'deleteAddress' delete_id=ad.id %}">Delete</a></li>
+                            </ul>
+                        </a>
+                        <p class="address_type text-center">{{ad.address_type}}</p>
+                        <p class="fw-bold mb-1">
+                            <span class="me-3">{{ad.name|capfirst}}</span>
+                            <span>{{ad.mobile}}</span>
+                        </p>
+                        <span>{{ad.address}}, {{ad.locality|capfirst}}, {{ad.city|capfirst}}, {{ad.state|capfirst}} -
+                            <span class="fw-bold">{{ad.zipcode}}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="container d-sm-none mb-2 bg-light px-0" style="margin-top: 100px;">
+    <div class="bg-primary p-2 rounded mt-2">
+        <a href="{% url 'profile' %}" class="text-decoration-none text-white">
+            <i class="fa-solid fa-arrow-left fa-lg pe-2"></i> My Addresses
+        </a>
+    </div>
+    <div class="row mx-0">
+        <div class="py-4 my-2 bg-white">
+            <a href="{% url 'newAddress' %}" class="text-decoration-none">
+                <i class="fa-solid fa-plus"></i> Add A NEW ADDRESS
+            </a>
+        </div>
+        {% for ad in add %}
+        <div class="card mb-1">
+            <div class="card-body position-relative dropstart">
+                <a class="side-menu" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+                <ul class="dropdown-menu shadow">
+                    <li><a class="dropdown-item" href="{% url 'updateAddress' id=ad.id %}">Edit</a></li>
+                    <li><a class="dropdown-item" href="{% url 'deleteAddress' delete_id=ad.id %}">Delete</a></li>
+                </ul>
+                <div class="fw-bold mb-1">
+                    <span class="me-2">{{ad.name|capfirst}}</span>
+                    <span class="address_type text-center rounded">{{ad.address_type}}</span>
+                </div>
+                <div class="my-2">
+                    <span>{{ad.address}}, {{ad.locality|capfirst}}, {{ad.city|capfirst}}, {{ad.state|capfirst}} - 
+                        <span class="fw-bold">{{ad.zipcode}}</span>
+                    </span>
+                </div>
+                <p>{{ad.mobile}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,71 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Register{% endblock title %}
+{% block content %}
+<section>
+    <div class="container mb-2" style="margin-top: 70px;">
+        {% include 'inc/message.html' %}
+        <div class="col-sm-10 shadow mx-auto">
+            <h4 class="bg-primary text-white px-3 py-2 rounded">Register</h4>
+            <div class="p-3">
+                <form action="" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="mb-3 form-group col-sm-6">
+                            <label for="" class="form-label">First Name</label>
+                            {{form.first_name}}
+                            <span id="error"></span>
+                            {% if form.errors.first_name %}
+                            <span class="text-danger">{{form.errors.first_name}}</span>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3 form-group col-sm-6">
+                            <label for="" class="form-label">Last Name</label>
+                            {{form.last_name}}
+                            <span id="error"></span>
+                            {% if form.errors.last_name %}
+                            <span class="text-danger">{{form.errors.last_name}}</span>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3 form-group col-sm-6">
+                            <label for="" class="form-label">Username</label>
+                            {{form.username}}
+                            <span id="error"></span>
+                            {% if form.errors.username %}
+                            <span class="text-danger">{{form.errors.username}}</span>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3 form-group col-sm-6">
+                            <label for="" class="form-label">Email</label>
+                            {{form.email}}
+                            <span id="error"></span>
+                            {% if form.errors.email %}
+                            <span class="text-danger">{{form.errors.email}}</span>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3 form-group col-sm-6">
+                            <label for="" class="form-label">Password</label>
+                            {{form.password1}}
+                            <span id="error"></span>
+                            {% if form.errors.password1 %}
+                            <span class="text-danger">{{form.errors.password1}}</span>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3 form-group col-sm-6">
+                            <label for="" class="form-label">Confirm Password</label>
+                            {{form.password2}}
+                            <span id="error"></span>
+                            {% if form.errors.password2 %}
+                            <span class="text-danger">{{form.errors.password2}}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <button type="submit" id="regbtn" class="btn btn-primary mb-2">Register</button>
+                </form>
+                <p class="mb-2">Already user ? <a href="{% url 'Login' %}" class="text-decoration-none">Login</a></p>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock content %}

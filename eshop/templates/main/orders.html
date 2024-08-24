@@ -1,0 +1,71 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% block content %}
+<div class="container-fluid mb-2 d-none d-sm-block" style="margin-top: 70px;">
+    <div class="bg-primary p-3 rounded my-2">
+        <a href="{% url 'Home' %}" class="text-decoration-none text-white"><i
+                class="fa-solid fa-arrow-left fa-lg pe-2"></i>My Orders</a>
+        {% include 'inc/message.html' %}
+    </div>
+    <div class="card p-2" title="view orders">
+        {% if order_placed %}
+        {% for order in order_placed %}
+        <a href="{% url 'viewOrders' order.id %}" class="text-decoration-none text-dark">
+            <div class="row">
+                <div class="col-sm-3">
+                    <img src="{{order.product.product_image.url}}" class="img-fluid" height="100" width="100"
+                        alt="{{order.product.product_name}}">
+                </div>
+                <div class="col-sm-8 card-body">
+                    <p class="fw-bold">{{order.product.product_name}}</p>
+                    <p>{{order.status}}</p>
+                </div>
+                <div class="col-sm-1 mt-3">
+                    <i class="fa-solid fa-angle-right"></i>
+                </div>
+            </div>
+        </a>
+        <hr>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="col-sm-8 mx-auto p-2 d-flex flex-column justify-content-center align-items-center">
+        <span class="h2">No Orders Found</span>
+        <p><a class="text-decoration-none" href="{% url 'Home' %}">Shop Now</a></p>
+    </div>
+    {% endif %}
+</div>
+</div>
+
+<div class="container mb-2 d-sm-none px-0" style="margin-top: 100px;">
+    {% if order_placed %}
+    <div class="bg-primary p-2 rounded mt-2">
+        <a href="{% url 'profile' %}" class="text-decoration-none text-white"><i
+                class="fa-solid fa-arrow-left fa-lg pe-2"></i> My Orders</a>
+    </div>
+    {% for order in order_placed %}
+    <a href="{% url 'viewOrders' order.id %}" class="text-decoration-none text-dark">
+        <div class="row bg-white border border-bottom p-2">
+            <div class="col-3">
+                <img src="{{order.product.product_image.url}}" class="img-fluid" height="150" width="150"
+                    alt="{{order.product.product_name}}">
+            </div>
+            <div class="col-8 card-body">
+                <p class="mb-2">{{order.product.product_name}}</p>
+            </div>
+            <div class="col-1 pt-3">
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </div>
+    </a>
+    <!-- <hr> -->
+    {% endfor %}
+
+    {% else %}
+    <div class="d-flex flex-column justify-content-center align-items-center ">
+        <span class="h2">No Orders Found</span>
+        <p><a class="text-decoration-none" href="{% url 'Home' %}">Shop Now</a></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

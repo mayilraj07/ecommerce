@@ -1,0 +1,161 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% block content %}
+<div class="container-fluid d-none d-sm-block bg-light mb-2" style="margin-top: 70px;">
+    <div class="row">
+        <div class="col-12">
+            {% if productSearch %}
+            <div class="bg-primary p-2 rounded mb-2">
+                <a href="{% url 'Home' %}" class="text-decoration-none text-white h5"><i
+                        class="fa-solid fa-arrow-left fa-lg pe-2"></i>Search Results</a>
+                {% include 'inc/message.html' %}
+            </div>
+
+            {% else %}
+            <div class="bg-primary p-2 rounded mb-2">
+                <a href="{% url 'Home' %}" class="text-decoration-none text-white h5"><i
+                        class="fa-solid fa-arrow-left fa-lg pe-2"></i>{{categoryName}}</a>
+                {% include 'inc/message.html' %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if products %}
+    <div class="row mx-0">
+        {% for item in products %}
+        <div class="card mb-1 col-12 col-sm-4 col-md-3">
+            <div class="row">
+                <div class="col-5 col-sm-12 p-2 border-bottom">
+                    <a href="{% url 'Product_details' item.category.category_name item.product_name %}"
+                        class="text-decoration-none">
+                        {% if item.trending %}
+                        <div class=" trending">Trending</div>
+                        {% endif %}
+                        {% if item.best_seller %}
+                        <div class=" seller">Best Seller</div>
+                        {% endif %}
+                        <img src="{{item.product_image.url}}" height="200" width="200"
+                            class=" img-fluid mx-auto d-block" alt="category-img">
+                    </a>
+                </div>
+                <div class="card-body col-6">
+                    <span class="card-title text-dark">{{item.product_name|truncatechars:50}}</span>
+                    <p class="card-text">
+                        <span class="text-dark fw-bold">&#8377 {{item.selling_price | stringformat:'d'}}</span>
+                        <span class="text-muted">&#8377 <s>{{item.original_price | stringformat:'d'}}</s></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if productSearch %}
+    <div class="row mx-0">
+        {% for item in productSearch %}
+        <div class="card mb-2 col-12 col-sm-4 col-md-3">
+            <div class="row">
+                <div class="card col-5 col-sm-12 p-2">
+                    <a href="{% url 'Product_details' item.category.category_name item.product_name %}"
+                        class="text-decoration-none">
+                        {% if item.trending %}
+                        <div class=" trending">Trending</div>
+                        {% endif %}
+                        {% if item.best_seller %}
+                        <div class=" seller">Best Seller</div>
+                        {% endif %}
+                        <img src="{{item.product_image.url}}" height="200" width="200"
+                            class=" img-fluid mx-auto d-block" alt="category-img">
+                    </a>
+                </div>
+                <div class="card-body col-6">
+                    <span class="card-title text-dark">{{item.product_name|truncatechars:50}}</span>
+                    <p class="card-text">
+                        <span class="text-dark fw-bold">&#8377 {{item.selling_price | stringformat:'d'}}</span>
+                        <span class="text-muted">&#8377 <s>{{item.original_price | stringformat:'d'}}</s></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+<div class="container mb-2 d-sm-none bg-light mb-2 px-0" style="margin-top: 100px;">
+    {% if productSearch %}
+            <div class="bg-primary p-2 rounded mb-2">
+                <a href="{% url 'Home' %}" class="text-decoration-none text-white h6"><i
+                        class="fa-solid fa-arrow-left fa-lg pe-2"></i>Search Results</a>
+                {% include 'inc/message.html' %}
+            </div>
+
+            {% else %}
+            <div class="bg-primary p-2 rounded mb-2">
+                <a href="{% url 'Home' %}" class="text-decoration-none text-white h5"><i
+                        class="fa-solid fa-arrow-left fa-lg pe-2"></i>{{categoryName}}</a>
+                {% include 'inc/message.html' %}
+            </div>
+    {% endif %}
+
+    {% if products %}
+    {% for item in products %}
+    <div class="card mb-2 col-12">
+        <div class="row">
+            <div class="card col-5 p-2">
+                <a href="{% url 'Product_details' item.category.category_name item.product_name %}"
+                    class="text-decoration-none">
+                    {% if item.trending %}
+                    <div class=" trending">Trending</div>
+                    {% endif %}
+                    {% if item.best_seller %}
+                    <div class=" seller">Best Seller</div>
+                    {% endif %}
+                    <img src="{{item.product_image.url}}" height="200" width="200" class=" img-fluid mx-auto d-block"
+                        alt="category-img">
+                </a>
+            </div>
+            <div class="card-body col-6">
+                <span class="card-title text-dark">{{item.product_name|truncatechars:50}}</span>
+                <p class="card-text">
+                    <span class="text-dark fw-bold">&#8377 {{item.selling_price | stringformat:'d'}}</span>
+                    <span class="text-muted">&#8377 <s>{{item.original_price | stringformat:'d'}}</s></span>
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if productSearch %}
+
+    {% for item in productSearch %}
+    <div class="card col-12">
+        <div class="row">
+            <div class="card col-5 p-2">
+                <a href="{% url 'Product_details' item.category.category_name item.product_name %}"
+                    class="text-decoration-none">
+                    {% if item.trending %}
+                    <div class=" trending">Trending</div>
+                    {% endif %}
+                    {% if item.best_seller %}
+                    <div class=" seller">Best Seller</div>
+                    {% endif %}
+                    <img src="{{item.product_image.url}}" class=" img-fluid mx-auto d-block" alt="category-img">
+                </a>
+            </div>
+            <div class="card-body col-6">
+                <span class="card-title text-dark">{{item.product_name|truncatechars:50}}</span>
+                <p class="card-text">
+                    <span class="text-dark fw-bold">&#8377 {{item.selling_price | stringformat:'d'}}</span>
+                    <span class="text-muted">&#8377 <s>{{item.original_price | stringformat:'d'}}</s></span>
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% endif %}
+</div>
+
+{% endblock content %}

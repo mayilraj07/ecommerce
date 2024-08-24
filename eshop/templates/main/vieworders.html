@@ -1,0 +1,201 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% block content %}
+<div class="container-fluid mb-2 d-none d-sm-block" style="margin-top: 70px;">
+    <div class="bg-primary p-3 rounded my-2">
+        <a href="{% url 'orders' %}" class="text-decoration-none text-white"><i
+                class="fa-solid fa-arrow-left fa-lg pe-2"></i>Order Details</a>
+        {% include 'inc/message.html' %}
+    </div>
+    <div class="card p-2">
+        {% for order in order_placed %}
+        <div class="row">
+            <div class="col-2">
+                <img src="{{order.product.product_image.url}}" class="img-fluid" height="100" width="100"
+                    alt="{{order.product.product_name}}">
+            </div>
+            <div class="col-10">
+                <p class="text-secondary mb-2" style="font-size:smaller;">Order ID - {{order.payment.order_id}}</p>
+                <p>Product : {{order.product.product_name}}</p>
+                <p>Quantity : {{order.quantity}}</p>
+                <p>Price : {{order.totalCost|stringformat:'d'}}</p>
+                {% if order.status != 'Cancel' and order.status != 'Delivered' and order.status != 'Return' %}
+                <a href="{% url 'cancelOrder' order.id %}" class="btn btn-sm btn-warning my-2">Cancel</a>
+                {% endif %}
+                {% if order.status == 'Delivered' %}
+                <a href="{% url 'returnOrder' order.id %}" class="btn btn-sm btn-warning my-2">Return</a>
+                {% endif %}
+            </div>
+            <div class=" col-10 mb-2 px-4">
+                <span class="mb-2">Order Status</span>
+                {% if order.status == 'Order Placed' %}
+                <div class="progress">
+                    <div class="progress-bar bg-success  progress-bar-animated" role="progressbar" style="width: 20%;"
+                        aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Order Placed</div>
+                </div>
+                {% endif %}
+
+                {% if order.status == 'Shipped' %}
+                <div class="progress">
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar"
+                        style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">Shipped</div>
+
+                </div>
+                {% endif %}
+
+                {% if order.status == 'On the way' %}
+                <div class="progress">
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar"
+                        style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">On the way</div>
+
+                </div>
+                {% endif %}
+
+                {% if order.status == 'Out for delivery' %}
+                <div class="progress">
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar"
+                        style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Out for delivery
+                    </div>
+
+                </div>
+                {% endif %}
+                {% if order.status == 'Delivered' %}
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                        aria-valuemin="0" aria-valuemax="100">Delivered</div>
+
+                </div>
+                {% endif %}
+                {% if order.status == 'Cancel' %}
+                <div class="progress">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                        aria-valuemin="0" aria-valuemax="100">Cancelled</div>
+
+                </div>
+                {% endif %}
+                {% if order.status == 'Return' %}
+                <div class="progress">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                        aria-valuemin="0" aria-valuemax="100">Return Accepted</div>
+                </div>
+                {% endif %}
+
+            </div>
+            <div>
+                <h5 class="p-2 fw-bold mt-2">Payment Details</h5>
+                <div class="card-body px-5 col-8">
+                    <ul class="list-group">
+                        <li
+                            class="list-group-item d-flex justify-content-between align-item-center border-0 px-0 pb-0 mb-3">
+                            Price <span id="amount">&#8377 {{order.totalCost}}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-item-center border-0 px-0">
+                            <strong>Total</strong> <span id="totalamount">
+                                <strong>&#8377 {{order.totalCost}}</strong></span>
+                        </li>
+                        <hr>
+                        <li class="list-group-item d-flex justify-content-end align-item-center border-0 px-0"><strong
+                                class="me-3">Payable Amount:</strong> <span id="totalamount">
+                                    <strong>&#8377 {{order.totalCost|stringformat:'d'}}</strong></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container mb-2 d-sm-none px-0" style="margin-top: 100px;">
+    {% if order_placed %}
+    <div class="bg-primary p-2 rounded mt-2">
+        <a href="{% url 'orders' %}" class="text-decoration-none text-white"><i
+                class="fa-solid fa-arrow-left fa-lg pe-2"></i> My Orders</a>
+    </div>
+    {% for order in order_placed %}
+    <div class="row bg-white border border-bottom p-2">
+        <div class="col-3">
+            <a href="{% url 'Product_details' order.product.category.category_name order.product.product_name %}"><img
+                    src="{{order.product.product_image.url}}" class="img-fluid" height="150" width="150"
+                    alt="{{order.product.product_name}}">
+            </a>
+        </div>
+        <div class="col-9">
+            <p class="text-secondary mb-2" style="font-size:smaller;">Order ID - {{order.payment.order_id}}</p>
+            <p class="mb-2">{{order.product.product_name}}</p>
+            <p class="mb-2">Quantity : {{order.quantity}}</p>
+            <p class="mb-2">Price : &#8377 {{order.totalCost | stringformat:'d'}}</p>
+            {% if order.status != 'Cancel' and order.status != 'Delivered' and order.status != 'Return' %}
+            <a href="{% url 'cancelOrder' order.id %}" class="btn btn-sm btn-warning my-1">Cancel</a>
+            {% endif %}
+            {% if order.status == 'Delivered' %}
+            <a href="{% url 'returnOrder' order.id %}" class="btn btn-sm btn-warning my-2">Return</a>
+            {% endif %}
+        </div>
+        <div class="col-12 mb-2">
+            <span class="mb-2">Order Status</span>
+            {% if order.status == 'Order Placed' %}
+            <div class="progress">
+                <div class="progress-bar bg-success  progress-bar-animated" role="progressbar" style="width: 20%;"
+                    aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Order Placed</div>
+
+            </div>
+            {% endif %}
+
+            {% if order.status == 'Shipped' %}
+            <div class="progress">
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar"
+                    style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">Shipped</div>
+
+            </div>
+            {% endif %}
+
+            {% if order.status == 'On the way' %}
+            <div class="progress">
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar"
+                    style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">On the way</div>
+
+            </div>
+            {% endif %}
+
+            {% if order.status == 'Out for delivery' %}
+            <div class="progress">
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar"
+                    style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Out for delivery
+                </div>
+
+            </div>
+            {% endif %}
+            {% if order.status == 'Delivered' %}
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                    aria-valuemin="0" aria-valuemax="100">Delivered</div>
+
+            </div>
+            {% endif %}
+            {% if order.status == 'Cancel' %}
+            <div class="progress">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                    aria-valuemin="0" aria-valuemax="100">Cancelled</div>
+
+            </div>
+            {% endif %}
+            {% if order.status == 'Return' %}
+            <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                    aria-valuemin="0" aria-valuemax="100">Return Accepted</div>
+
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- <hr> -->
+    {% endfor %}
+
+    {% else %}
+    <div class="d-flex flex-column justify-content-center align-items-center ">
+        <span class="h2">No Orders Found</span>
+        <p><a class="text-decoration-none" href="{% url 'Home' %}">Shop Now</a></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Collections {% endblock title %}
+{% block content %}
+
+<div class="container-fluid d-none d-sm-block" style="margin-top:70px;">
+    <div class="bg-primary p-2 rounded">
+        <a href="{% url 'Home' %}" class="text-decoration-none text-white h5"><i
+                class="fa-solid fa-arrow-left fa-lg pe-2"></i>Categories</a>
+        {% include 'inc/message.html' %}
+    </div>
+    <div class="row">
+        {% for item in category %}
+        <div class="col-sm-2 my-3 text-center">
+            <a href="{% url 'Products' item.category_name %}" class="text-dark text-decoration-none">
+                <img src="{{item.image.url}}" height="100px" width="100px" class="card-image-top" alt="category-img">
+                <span>{{item.category_name}}</span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container mt-1 d-sm-none" style="margin-top:100px;">
+    <div class="row">
+        <div class="bg-primary p-2 rounded my-2">
+            <a href="{% url 'Home' %}" class="text-decoration-none text-white"><i
+                    class="fa-solid fa-arrow-left fa-lg pe-2"></i>Categories</a>
+            {% include 'inc/message.html' %}
+        </div>
+        {% for item in category %}
+        <div class=" col-4 col-md-3 col-lg-2 my-3 text-center">
+            <a href="{% url 'Products' item.category_name %}" class="text-dark text-decoration-none">
+                <img src="{{item.image.url}}" height="100px" width="100px" class="card-image-top" alt="category-img">
+                <span>{{item.category_name}}</span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

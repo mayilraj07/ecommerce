@@ -1,0 +1,113 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% block content %}
+<div class="container-fluid mb-4 d-none d-sm-block" style="margin-top: 70px;">
+    {% include 'inc/message.html' %}
+    <div class="row">
+        {% include 'main/profile_content.html' %}
+        <div class="col-sm-8 shadow">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <h5 class=" my-2 pb-1 fw-bold border-bottom">Personal Information</h5>
+                    <div class="form-floating col-sm-6 mb-2">
+                        <input type="text" class="form-control" name="first_name" value="{{user_info.first_name}}"
+                            id="firstname" placeholder="firstname">
+                        <label for="firstname" class="form-label ps-3">First Name</label>
+                    </div>
+                    <div class="form-floating col-sm-6">
+                        <input type="text" class="form-control" name="last_name" value="{{user_info.last_name}}"
+                            id="lastname" placeholder="lastname">
+                        <label for="lastname" class="form-label ps-3">Last Name</label>
+                    </div>
+                    <div class="form-floating col-sm-6">
+                        <input type="text" class="form-control" name="username" value="{{user_info.username}}"
+                            id="userid" placeholder="username">
+                        <label for="userid" class="form-label ps-3">Username</label>
+                    </div>
+
+                    <div class="form-floating col-sm-6">
+                        <input type="text" class="form-control" name="email" value="{{user_info.email}}" id="email"
+                            placeholder="email">
+                        <label for="email" class="form-label ps-3">Email</label>
+                    </div>
+                </div>
+                <div class="col-12 my-3">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="{% url 'profile' %}" type="button" class="btn btn-success">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container d-sm-none bg-light mb-2" style="margin-top: 100px;">
+    <div class="bg-white p-2 mb-2">
+        <div class="mb-2">
+            <a href="{% url 'Home' %}" class="text-decoration-none text-dark"><i
+                    class="fa-solid fa-arrow-left fa-lg pe-2"></i></a>
+            <span>Hey! {{request.user}}</span>
+        </div>
+        <div class="orders bg-white mb-2 d-flex">
+            <div class="border px-2 me-2 py-2 rounded"><a href="{% url 'orders' %}"
+                    class="text-decoration-none text-dark ms-2 pe-5 d-flex align-items-center"><i
+                        class="fa-solid fa-box-open text-primary fs-5 me-1"></i> Orders</a></div>
+            <div class="border px-2 py-2 rounded"><a href="{% url 'wishlist' %}"
+                    class="text-decoration-none text-dark ms-2 pe-5 d-flex align-items-center"><i
+                        class="fa-regular fa-heart text-primary fs-5 me-1"></i> Wishlist</a></div>
+        </div>
+    </div>
+
+    <div class="bg-white p-2 mb-2">
+        <h6 class="fw-bold mb-3">Account Settings</h6>
+        <div class="mb-3"><a href="#collapseExample" class="text-decoration-none text-dark" data-bs-toggle="collapse"><i
+                    class="fa-solid fa-user text-primary"></i> Edit Profile</a></div>
+        <div class="collapse" id="collapseExample">
+            <div class=" my-2 border-bottom">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="row mx-0">
+                        <h6 class=" bg-primary text-white p-2 rounded">Personal Information</h6>
+                        <div class="form-floating mb-1 ps-0">
+                            <input type="text" class="form-control" name="first_name" value="{{user_info.first_name}}"
+                                id="firstname" placeholder="firstname">
+                            <label for="firstname" class="form-label ps-3">First Name</label>
+                        </div>
+                        <div class="form-floating mb-1 ps-0">
+                            <input type="text" class="form-control" name="last_name" value="{{user_info.last_name}}"
+                                id="lastname" placeholder="lastname">
+                            <label for="lastname" class="form-label ps-3">Last Name</label>
+                        </div>
+                        <div class="form-floating mb-1 ps-0">
+                            <input type="text" class="form-control" name="username" value="{{user_info.username}}"
+                                id="userid" placeholder="username">
+                            <label for="userid" class="form-label ps-3">Username</label>
+                        </div>
+
+                        <div class="form-floating ps-0">
+                            <input type="text" class="form-control" name="email" value="{{user_info.email}}" id="email"
+                                placeholder="email">
+                            <label for="email" class="form-label ps-3">Email</label>
+                        </div>
+
+                        <div class="my-3 px-0">
+                            <button type="submit" class="btn btn-warning col-5 me-4">Save</button>
+                            <a href="{% url 'profile' %}" type="button" class="btn btn-danger col-5">Cancel</a>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+        <div class="mb-3"><a href="{% url 'passwordChange' %}" class="text-decoration-none text-dark"><i
+                    class="fa-solid fa-key text-primary"></i> Change Password</a></div>
+        <div class="mb-3"><a href="{% url 'address' %}" class="text-decoration-none text-dark"><i
+                    class="fa-solid fa-location-dot text-primary"></i> Saved Addresses</a></div>
+    </div>
+    <div class="bg-white text-center d-grid">
+        <a href="{% url 'Logout' %}" class="btn">Logout</a>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% include 'inc/links.html' %}
+  <title>{% block title %} {% endblock title %}</title>
+</head>
+<body class="bg-light">
+  {% include 'inc/navbar.html' %}
+
+  {% block content %}
+  {% endblock content %}
+  
+  {% block payment-gateway %}
+  {% endblock payment-gateway %}
+
+  {% include 'inc/footer.html' %}
+
+  <script>
+    $( function() { 
+        var availableTags = [ 
+          '{% for product in search %} ',
+          '{{product.product_name}}',
+          '{% endfor %}'
+        ]; 
+        $( "#search-items" ).autocomplete({ 
+          source: availableTags 
+        }); 
+      }); 
+  
+</script>
+
+</body>
+</html>

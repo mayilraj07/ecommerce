@@ -1,0 +1,122 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% block content %}
+<section>
+    <div class="container-fluid bg-light mb-2 d-none d-lg-block" style="margin-top: 70px;">
+        {% include 'inc/message.html' %}
+        <div class="row">
+            <nav class="col-12"
+                style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+                aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item "><a href="{% url 'Home' %}" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item "><a href="{% url 'Products' products.category.category_name %}"
+                            class="text-decoration-none">Back</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{products}}</li>
+                </ol>
+            </nav>
+            <div class="card col-lg-4 p-2">
+                {% if products.quantity > 0 %}
+                {% if wishlist %}
+                <a href="{% url 'wishlist' %}" class="me-2" id="favbtn" title="View Wishlist"><i
+                        class="fa fa-heart text-danger"></i></a>
+                {% else %}
+                <a href="{% url 'addWishlist' products.id %}" class="me-2" id="favbtn" title="Add to Wishlist"><i
+                        class="fa-regular fa-heart text-dark"></i></a>
+                {% endif %}
+                {% else %}
+                <i id="favbtn" class="fa-solid fa-heart-crack" title="Out of Stock"></i>
+                {% endif %}
+                <img src="{{products.product_image.url}}" height="200" width="200" class="img-fluid mx-auto d-block"
+                    alt="{{products}}">
+            </div>
+
+            <div class="card col-lg-8 p-3">
+                <p class="text-sm fw-bold mb-2">{{products}}</p>
+                <p class="mb-2">Seller: {{products.vendor}}</p>
+                <p class="h5"><small class=" text-secondary">
+                    <s> &#8377 {{products.original_price |stringformat:'d'}}</s></small>
+                    <span class="fw-bold">&#8377 {{products.selling_price | stringformat:'d'}}</span>
+                </p>
+                <div class="my-2">
+                    {% if products.quantity > 0 %}
+                    <div class="btn-group">
+                        <form action="{% url 'addCart' %}">
+                            <input type="hidden" value="{{products.id}}" id="pid" name="product_id">
+                            <button type="submit" class="btn btn-primary px-3 me-2 me-lg-2"><i
+                                    class="fa fa-shopping-cart me-1"></i>Add to cart</button>
+                        </form>
+                        <div>
+                            <a href="{% url 'buyproduct' products.id %}" class="btn btn-warning px-4"><i
+                                    class="fa fa-bolt me-1"></i>Buy now</a>
+                        </div>
+                    </div>
+
+                    {% else %}
+                    <button class="btn btn-sm btn-danger"><i class="fa fa-minus pe-1"></i>OUT OF STOCK</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 bg-white p-2 my-2">
+                <h5>Product Description</h5>
+                <p class="mt-3">{{products.description }}</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="container bg-light mb-2 d-lg-none" style="margin-top: 110px;">
+        {% include 'inc/message.html' %}
+        <div class="row">
+            <nav class="col-12"
+                style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+                aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item "><a href="{% url 'Home' %}" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item "><a href="{% url 'Products' products.category.category_name %}"
+                            class="text-decoration-none">Back</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{products}}</li>
+                </ol>
+            </nav>
+            <div class="card col-lg-4 h-75 mb-2 p-2">
+                <span class="me-2" id="favbtn" title="Add to favourite"><i class="fa-regular fa-heart"></i></span>
+                <img src="{{products.product_image.url}}" height="200" width="200" class="img-fluid mx-auto d-block"
+                    alt="{{products}}">
+            </div>
+
+            <div class="col-12 card col-lg-8 p-2">
+                <p class="text-sm fw-bold">{{products}}</p>
+                <!-- <p>{{products.vendor}}</p>
+                    <p>{{products.description}}</p> -->
+                <p class="h2"><small class=" text-secondary">
+                    <s> &#8377 {{products.original_price |stringformat:'d'}}</s></small>
+                    <span class="fw-bold">&#8377 {{products.selling_price | stringformat:'d'}}</span>
+                </p>
+                <div class="my-3">
+                    {% if products.quantity > 0 %}
+                    <div class="btn-group">
+                        <form action="{% url 'addCart' %}">
+                            <input type="hidden" value="{{products.id}}" id="pid" name="product_id">
+                            <button type="submit" class="btn btn-primary px-3 me-2 me-lg-2"><i
+                                    class="fa fa-shopping-cart me-1"></i>Add to cart</button>
+                        </form>
+                        <div>
+                            <a href="{% url 'buyproduct' products.id %}" class="btn btn-warning px-4"><i
+                                    class="fa fa-bolt me-1"></i>Buy now</a>
+                        </div>
+                    </div>
+
+                    {% else %}
+                    <button class="btn btn-danger"><i class="fa fa-minus pe-1"></i>OUT OF STOCK</button>
+                    {% endif %}
+
+                    <p class="mt-3">{{products.description}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}

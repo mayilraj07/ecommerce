@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Ekart | Online Shopping{% endblock title %}
+{% load static %}
+{% block content %}
+<div class="container-fluid mb-2 bg-light" style="margin-top: 65px;">
+    {% include 'inc/message.html' %}
+    <div class="categories bg-white pt-5 pt-md-0">
+        <div class="col-4 col-sm-3 col-md-2 p-1 text-center">
+            <a href="{% url 'Collections'%}" class="text-dark text-decoration-none">
+                <img src="{% static 'images/category.jpg'%}" height="64" width="64" class="img-fluid rounded"
+                    alt="all categories"><br>
+                <span>All Categories</span>
+            </a>
+        </div>
+        {% for item in category %}
+        <div class="col-3 col-sm-2 p-1 text-center">
+            <a href="{% url 'Products' item.category_name %}" class="text-dark text-decoration-none">
+                <img src="{{item.image.url}}" height="64" width="64" class="rounded"
+                    alt="{{item.category_name}}"><br>
+                <span>{{item.category_name}}</span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% include 'inc/slides.html' %}
+    <div class="row mx-0">
+        <div class="col-12 mt-3 px-0">
+            <h4 class="text-white bg-primary p-2 rounded">Latest Deals</h4>
+        </div>
+        {% for item in products %}
+        <div class="card mb-1 col-12 col-sm-3">
+            <div class="row">
+                <div class="border-bottom col-6 col-sm-12 p-2">
+                    <a href="{% url 'Product_details' item.category.category_name item.product_name %}"
+                        class="text-decoration-none">
+                        <img src="{{item.product_image.url}}" height="200" width="200" class="img-fluid mx-auto d-block"
+                            alt="category-img">
+                    </a>
+                </div>
+                <div class="card-body col-6">
+                    <span class="card-title text-dark">{{item.product_name|truncatechars:24}}</span>
+                    <p class="card-text">
+                        <span class="text-dark fw-bold">&#8377 {{item.selling_price | stringformat:'d'}}</span>
+                        <span class="text-muted">&#8377 <s>{{item.original_price | stringformat:'d'}}</s></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
