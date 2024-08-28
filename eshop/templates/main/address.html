@@ -1,10 +1,38 @@
 {% extends 'layouts/base.html' %}
 {% block title %}Ekart | Online Shopping{% endblock title %}
 {% block content %}
-<div class="container-fluid d-none d-sm-block mb-2" style="margin-top: 70px;">
+<div class="container-fluid d-none d-sm-block mb-3" style="margin-top: 70px;">
     <div class="row">
-        {% include 'main/profile_content.html' %}
-        <div class="col-sm-8 bg-white">
+        {% load static %}
+        <div class="col-sm-4">
+            <div class="bg-white mb-1 p-2 d-flex shadow">
+                <img src="{% static 'profiles/profile_image.jpeg'%}" class="me-4" height="50" width="50" alt="">
+                <div>
+                    <small class="ps-2">Hello,</small><br>
+                    <span class=" fw-bold text-capitalize">{{request.user}}</span>
+                </div>
+            </div>
+            <div class="bg-white shadow pb-1">
+                <div class="d-flex align-items-center border-bottom p-2">
+                    <i class="fa-solid fa-truck-fast me-2"></i>
+                    <a href="{% url 'orders' %}" class=" text-secondary text-decoration-none me-auto">MY ORDERS</a>
+                    <i class="fa-solid fa-angle-right"></i>
+                </div>
+                <div class="d-flex  align-items-center p-2">
+                    <i class="fa-solid fa-user-gear me-2"></i>
+                    <a class="text-secondary text-decoration-none">ACCOUNT SETTINGS</a>
+                </div>
+                <div class="px-2">
+                    <ul class="list-unstyled">
+                        <li class="d-grid mb-2"><a href="{% url 'profile' %}" class="btn">Profile Information</a>
+                        </li>
+                        <li class="d-grid mb-2"><a href="{% url 'address' %}" class="btn btn-primary">Manage Addresses</a></li>
+                        <li class="d-grid mb-2"><a href="{% url 'Logout' %}" class="btn">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 bg-white shadow">
             <h5 class="my-2 pb-1 border-bottom">Manage Addresses</h5>
             <div class="border p-2 my-2">
                 <a href="{% url 'newAddress' %}" class="text-decoration-none"><i class="fa-solid fa-plus"></i> Add A NEW ADDRESS</a>

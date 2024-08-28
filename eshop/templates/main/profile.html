@@ -4,7 +4,35 @@
 <div class="container-fluid mb-4 d-none d-sm-block" style="margin-top: 70px;">
     {% include 'inc/message.html' %}
     <div class="row">
-        {% include 'main/profile_content.html' %}
+        {% load static %}
+        <div class="col-sm-4">
+            <div class="bg-white mb-1 p-2 d-flex shadow">
+                <img src="{% static 'profiles/profile_image.jpeg'%}" class="me-4" height="50" width="50" alt="">
+                <div>
+                    <small class="ps-2">Hello,</small><br>
+                    <span class=" fw-bold text-capitalize">{{request.user}}</span>
+                </div>
+            </div>
+            <div class="bg-white shadow pb-1">
+                <div class="d-flex align-items-center border-bottom p-2">
+                    <i class="fa-solid fa-truck-fast me-2"></i>
+                    <a href="{% url 'orders' %}" class=" text-secondary text-decoration-none me-auto">MY ORDERS</a>
+                    <i class="fa-solid fa-angle-right"></i>
+                </div>
+                <div class="d-flex  align-items-center p-2">
+                    <i class="fa-solid fa-user-gear me-2"></i>
+                    <a class="text-secondary text-decoration-none">ACCOUNT SETTINGS</a>
+                </div>
+                <div class="px-2">
+                    <ul class="list-unstyled">
+                        <li class="d-grid mb-2"><a href="{% url 'profile' %}" class="btn btn-primary">Profile Information</a>
+                        </li>
+                        <li class="d-grid mb-2"><a href="{% url 'address' %}" class="btn">Manage Addresses</a></li>
+                        <li class="d-grid mb-2"><a href="{% url 'Logout' %}" class="btn">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="col-sm-8 shadow">
             <form action="" method="post">
                 {% csrf_token %}
