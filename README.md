@@ -28,7 +28,7 @@ cd ecommerce/
 pip install -r requirements.txt
 ```
 
-#### 7. Edit project settings
+#### 6. Edit project settings
 ```bash
 # open settings file
 ekart/settings.py
@@ -48,7 +48,7 @@ DATABASES = {
 
 # save the file
 ```
-#### 8. Run the server
+#### 7. Run the server
 ```bash
 # Make migrations
 py manage.py makemigrations
